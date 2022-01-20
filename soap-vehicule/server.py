@@ -1,0 +1,24 @@
+from spyne import Application, rpc, ServiceBase , AnyDict
+from lxml import etree
+from spyne.protocol.soap import Soap11
+from spyne.server.wsgi import WsgiApplication
+
+vehicule = {"data" : [
+    {"name":"Tesla Model S","autonomy":560,"charge_time":7},
+    {"name":"Kia e-niro","autonomy":370,"charge_time":10.30},
+    {"name":"Renault Zoe ZE50 R110","autonomy":315,"charge_time":3},
+    {"name":"BMW I4","autonomy":475,"charge_time":8.45}
+    ]}
+
+class Soap(ServiceBase):
+    @rpc(_returns=AnyDict)
+    def get_vehicules(ctx):
+        return vehicule
+application = Application([Soap], 'spyne.examples.hello.soap',in_protocol=Soap11(validator='lxml'),out_protocol=Soap11())
+wsgi_application = WsgiApplication(application)
+
+
+if __name__ == '__main__':
+    from wsgiref.simple_server import make_server
+    server = make_server('127.0.0.1', 8000, wsgi_application)
+    server.serve_forever()
