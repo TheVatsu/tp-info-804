@@ -3,6 +3,7 @@ from lxml import etree
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 
+port = 3000
 vehicule = {"data" : [
     {"name":"Tesla Model S","autonomy":560,"charge_time":7},
     {"name":"Kia e-niro","autonomy":370,"charge_time":10.30},
@@ -20,5 +21,6 @@ wsgi_application = WsgiApplication(application)
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
-    server = make_server('127.0.0.1', 8000, wsgi_application)
+    server = make_server('127.0.0.1', port, wsgi_application)
+    print("server is running on port : " + str(port))
     server.serve_forever()

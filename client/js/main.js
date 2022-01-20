@@ -1,6 +1,6 @@
 $( document ).ready(function() {
     $.soap({
-        url: 'http://127.0.0.1:8000/?wsdl',
+        url: 'https://vehicule-soap.herokuapp.com/?wsdl',
         method: 'get_vehicules',
     
         data: {},
