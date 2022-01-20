@@ -10,6 +10,7 @@ vehicule = {"data" : [
     {"name":"Renault Zoe ZE50 R110","autonomy":315,"charge_time":3},
     {"name":"BMW I4","autonomy":475,"charge_time":8.45}
     ]}
+    
 
 class Soap(ServiceBase):
     @rpc(_returns=AnyDict)
