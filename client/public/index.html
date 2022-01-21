@@ -7,23 +7,39 @@
     <link href="css/style.css" rel="stylesheet">
     <title>TP CARRERA API</title>
 </head>
+<div class="header">
+        <div class="titre">TP INFO 802 </div>
+        
+        <div class="blaze">
+            <div class="prenom">Thomas</div>
+            <div class="nom">CARRERA</div>
+            
+        </div>
+</div>
 <body>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.js'></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type='text/javascript' src='js/main.js'></script>
-    <h1>TP INFO 802 CARRERA</h1>
+    
     <div class="vehicule_list">
-        <h2>Choissisez un véhicule : </h2>
-        <select id="combo_box">
-            <option>Chargement...</option>
-        </select> 
+        <div class="choisissez">Choissisez un véhicule : </div>
+        <div class="select">
+            <select id="combo_box">
+                <option>Chargement...</option>
+            </select> 
+            <div class="select_arrow"></div>
+        </div>
         <div class="car_info">
-            <h2>Information sur le vehicule</h2>
-            <h3>Autonomie : </h3>
-            <div class="autonomie"></div>
-            
-            <h3>Temps de charge : </h3>
-            <div class="charging_time"></div>
+            <div class='papa'>
+                <div class="info">Information sur le vehicule : </div>
+                <div class="autonomie">Autonomie : </div>
+            </div>
+
+            <div class='papa'>
+                <div class="info">Temps de charge : </div>
+                <div class="charging_time"></div>
+            </div>
+
         </div>
     </div>
 </body>
