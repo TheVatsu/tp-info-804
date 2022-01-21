@@ -11,7 +11,7 @@ const server = express().use(express.static("public"))
 
 const io = socketIO(server);
 
-var url_soap = 'http://127.0.0.1:3001/?wsdl';
+var url_soap = 'https://vehicule-soap.herokuapp.com/?wsdl';
 var args = {};
 var vehicule = []
 soap.createClient(url_soap, function(err, client) {

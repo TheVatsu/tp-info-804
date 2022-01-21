@@ -1,5 +1,4 @@
 from spyne import Application, rpc, ServiceBase , AnyDict
-from lxml import etree
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 
