@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP API</title>
+</head>
+<body>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type='text/javascript' src='js/main.js'></script>
+    <h1>Bienvenue sur mon super site</h1>
+    <div class="vehicule_list">
+        <select id="combo_box">
+            <option>Chargement...</option>
+        </select> 
+        <div class="car_info">
+            <h2>Information sur le vehicule</h2>
+            <h3>Autonomie : </h3>
+            <div class="autonomie"></div>
+            
+            <h3>Temps de charge : </h3>
+            <div class="charging_time"></div>
+        </div>
+    </div>
+</body>
+</html>

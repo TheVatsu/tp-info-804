@@ -3,12 +3,12 @@ from lxml import etree
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 
-port = 3000
+port = 3001
 vehicule = {"data" : [
-    {"name":"Tesla Model S","autonomy":560,"charge_time":7},
-    {"name":"Kia e-niro","autonomy":370,"charge_time":10.30},
-    {"name":"Renault Zoe ZE50 R110","autonomy":315,"charge_time":3},
-    {"name":"BMW I4","autonomy":475,"charge_time":8.45}
+    {"name":"Tesla Model S","autonomy":560,"charge_time":"7H"},
+    {"name":"Kia e-niro","autonomy":370,"charge_time":"10H30"},
+    {"name":"Renault Zoe ZE50 R110","autonomy":315,"charge_time":"3H"},
+    {"name":"BMW I4","autonomy":475,"charge_time":"8H45"}
     ]}
     
 
