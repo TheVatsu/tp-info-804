@@ -17,6 +17,7 @@ var vehicule = []
 soap.createClient(url_soap, function(err, client) {
   client.get_vehicules(args, function(err, result) {
     vehicule = result.get_vehiculesResult.data;
+    io.emit("vehicule",vehicule);
   });
 });
 
