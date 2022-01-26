@@ -22,8 +22,5 @@ soap.createClient(url_soap, function(err, client) {
 });
 
 io.on('connection',(socket)=>{
-  //get vehicule
-  socket.on('get_vehicules',()=>{
-     io.to(socket.id).emit("vehicule",vehicule);
-  });
+  io.to(socket.id).emit("vehicule",vehicule);
 });
