@@ -2,7 +2,7 @@
 var vehicule = []
 
 $( document ).ready(function() {
-    const socket = io("https://carrera-info802.herokuapp.com/");//  "http://localhost:3000"
+    const socket = io("https://carrera-info802.herokuapp.com/");// "http://localhost:3000"
 
     socket.on("vehicule", (data) => {
       $('#combo_box').text("")
