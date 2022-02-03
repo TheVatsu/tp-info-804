@@ -41,13 +41,31 @@ io.on('connection',(socket)=>{
 
   socket.on('get_borne',(start,end,dist)=>{
     start = start +'';
-    const long = start.split(",")[0];
-    const lat = start.split(",")[1];
-    request(url_api_borne + '?dataset=bornes-irve&q=&geofilter.distance='+long+'%2C+'+lat+'%2C+'+dist, function (error, response, body) {
-      io.to(socket.id).emit("borne",body);
+    end = end + '';
+    var long = start.split(",")[0];
+    var lat = start.split(",")[1];
+    request(url_api_borne + '?dataset=bornes-irve&q=&rows=100&geofilter.distance='+long+'%2C+'+lat+'%2C+'+dist, function (error, response, body) {
+      io.to(socket.id).emit("borne",filterBorne(body));
+    });
+    
+    long = end.split(",")[0];
+    lat = end.split(",")[1];
+    request(url_api_borne + '?dataset=bornes-irve&q=&rows=100&geofilter.distance='+long+'%2C+'+lat+'%2C+'+dist, function (error, response, body) {
+      io.to(socket.id).emit("borne",filterBorne(body));
     });
   });
 
 });
 
+
+function filterBorne(data){
+  var array = [];
+  var d = JSON.parse(data);
+  for(el in d.records){
+    if(array.filter(e => e === d.records[el].fields.geo_point_borne).length === 0){
+      array.push(d.records[el].fields.geo_point_borne);
+    }
+  }
+  return array;
+}
 

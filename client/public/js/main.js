@@ -4,7 +4,6 @@ const apiKey = "AAPK020c96eefdfd42c28bb455760d3f2efazFdj0zWahCb9LTepXcAxN3SZC0GR
 
 $( document ).ready(function() {
     const socket = io("http://localhost:3000");//"https://carrera-info802.herokuapp.com/"
-
     socket.on("vehicule", (data) => {
       $('#combo_box').text("")
       for (el in data){
@@ -16,7 +15,9 @@ $( document ).ready(function() {
     })
 
     socket.on("borne", (data) => {
-     console.log(data)
+      for(let i in data){
+        addPoint(data[i]);
+      }
     })
 
     $('#combo_box').on('change', function (e) {
@@ -52,9 +53,9 @@ const map = new ol.Map({
 
 const view = new ol.View({
 
-  center: ol.proj.fromLonLat([0.003208,43.186965]),
+  center: ol.proj.fromLonLat([1.003208,48.186965]),
 
-  zoom: 13
+  zoom: 5
 });
 map.setView(view);
 
@@ -192,6 +193,18 @@ olms(map, basemapURL)
 
   });
 
-
+function addPoint(point){
+    var layer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+          features: [
+              new ol.Feature({
+                  geometry: new ol.geom.Point(ol.proj.fromLonLat([point[0], point[1]]))
+              })
+          ]
+      })
+  });
+  map.addLayer(layer);
+  console.log("point added");
+}
 
 });
