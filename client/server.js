@@ -61,6 +61,7 @@ io.on('connection',(socket)=>{
 function filterBorne(data){
   var array = [];
   var d = JSON.parse(data);
+  console.log(d.nhits);
   for(el in d.records){
     if(array.filter(e => e === d.records[el].fields.geo_point_borne).length === 0){
       array.push(d.records[el].fields.geo_point_borne);

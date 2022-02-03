@@ -207,7 +207,6 @@ function addPoint(point){
       })
   });
   map.addLayer(layer);
-  console.log("point added");
 }
 
 });
