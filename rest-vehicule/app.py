@@ -7,6 +7,10 @@ api = Api(app)
 highway_speed = 130
 national_speed = 80
 
+class welcome(Resource):
+    def get(self):
+        return "welcome in my api"
+
 class highway(Resource):
     def get(self):
         km = int(request.args.get('km'))
@@ -21,8 +25,10 @@ class national(Resource):
         loading_time = int(request.args.get('loading_time'))
         return km / national_speed + int(km / autonomy) * loading_time
 
+api.add_resource(welcome, '/')
 api.add_resource(highway, '/highway')
 api.add_resource(national, '/national')
 
 if __name__ == '__main__':
+    print("launching app...")
     app.run(debug=True)
