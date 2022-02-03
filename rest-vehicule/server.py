@@ -12,14 +12,14 @@ class highway(Resource):
         km = int(request.args.get('km'))
         autonomy = int(request.args.get('autonomy'))
         loading_time = int(request.args.get('loading_time'))
-        return km / highway_speed + (autonomy / km) * loading_time
+        return km / highway_speed + int(km / autonomy) * loading_time
 
 class national(Resource):
     def get(self):
         km = int(request.args.get('km'))
         autonomy = int(request.args.get('autonomy'))
         loading_time = int(request.args.get('loading_time'))
-        return km / national_speed + (autonomy / km) * loading_time
+        return km / national_speed + int(km / autonomy) * loading_time
 
 api.add_resource(highway, '/highway')
 api.add_resource(national, '/national')
