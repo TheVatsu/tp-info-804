@@ -22,7 +22,7 @@ body{
     margin-left: 25%;
     width: 50%;
     border-radius: 25px;
-    margin-top: 20vh ; 
+    margin-top: 10vh ; 
 }
 
 
@@ -92,7 +92,41 @@ body{
     text-align: right;
     display: inline-block;
 }
+.div_input{
+    padding-top: 10px;
+    padding-right: 10px;
+}
+.div_temps_total{
+    padding-top: 5px;
+    padding-right: 10px;
+}
 
+.temps_total{
+    display: inline-block;
+    font-weight: bold;
+}
+
+#bouton_temps{
+    margin: 15px;
+    padding: 10px;
+    border-radius:20px;
+    font-size:20px;
+    border : none;
+    color:white;
+    background : linear-gradient(145deg,  rgba(235,0,255,1) 0%,rgba(0,255,235,0.6197829473586309) 100%);
+}
+
+#bouton_temps:hover{
+    padding: 12px;
+    margin: 13px;
+
+}
+
+#nb_km{
+    border-radius:10px;
+    padding:5px;
+    border:none;
+}
 .select {
     margin-left: auto;
     margin-right: auto;
