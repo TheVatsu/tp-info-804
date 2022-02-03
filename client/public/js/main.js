@@ -29,7 +29,10 @@ $( document ).ready(function() {
   });
 
   socket.on("res_temps", (data) => {
-     $('.temps_total').text(data);
+     const decimal = parseFloat(data) % 1;
+     const entire = parseInt(data).toFixed(0);
+     const minuts = parseInt(decimal * 60);
+     $('.temps_total').text(entire + " H " + minuts);
   });
 
   

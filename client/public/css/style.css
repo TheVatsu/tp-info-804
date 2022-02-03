@@ -19,10 +19,10 @@ body{
     color: white;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.35);
-    margin-left: 40%;
-    width: 50%;
+    margin-left: 65%;
+    width: 30%;
     border-radius: 25px;
-    margin-top: 10vh ; 
+    margin-top: 5vh ; 
 }
 
 
@@ -118,7 +118,7 @@ body{
 .map {
     position:absolute;
     height: 85%;
-    width: 36%;
+    width: 60%;
     margin-left:2%;
   }
   #directions {
