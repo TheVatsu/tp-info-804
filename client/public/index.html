@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" href="assets/wallpaper.jpg" />
     <title>TP CARRERA API</title>
 </head>
 <div class="header">
@@ -17,10 +18,8 @@
         </div>
 </div>
 <body>
-    <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.js'></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type='text/javascript' src='js/main.js'></script>
-    
+    <div id="map" class="map"></div>
+    <div id="directions">Click on the map to create a start and end for the route.</div>
     <div class="vehicule_list">
         <div class="choisissez">Choissisez un véhicule</div>
         <div class="select">
@@ -57,5 +56,13 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.7.0/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol-mapbox-style@6.1.4/dist/olms.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-routing@3.0.0/dist/umd/routing.umd.js"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.1.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type='text/javascript' src='js/main.js'></script>
 </body>
 </html>

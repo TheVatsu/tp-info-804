@@ -19,7 +19,7 @@ body{
     color: white;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.35);
-    margin-left: 25%;
+    margin-left: 40%;
     width: 50%;
     border-radius: 25px;
     margin-top: 10vh ; 
@@ -115,7 +115,26 @@ body{
     color:white;
     background : linear-gradient(145deg,  rgba(235,0,255,1) 0%,rgba(0,255,235,0.6197829473586309) 100%);
 }
-
+.map {
+    position:absolute;
+    height: 85%;
+    width: 30%;
+    margin-left:5%;
+  }
+  #directions {
+    position: absolute;
+    width: 30%;
+    max-height: 50%;
+    right: 20px;
+    top: 20px;
+    overflow-y: auto;
+    background: white;
+    font-family: Arial, Helvetica, Verdana;
+    line-height: 1.5;
+    font-size: 14px;
+    padding: 10px;
+    display:none;
+  }
 #bouton_temps:hover{
     padding: 12px;
     margin: 13px;
