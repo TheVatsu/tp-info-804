@@ -3,15 +3,17 @@ var vehicule = []
 const apiKey = "AAPK020c96eefdfd42c28bb455760d3f2efazFdj0zWahCb9LTepXcAxN3SZC0GRV9Eyyt4iKdWU1iv01vLertpO3njj0qMNjKgu";
 
 $( document ).ready(function() {
-    const socket = io("https://carrera-info802.herokuapp.com/");//"http://localhost:3000"
+    const socket = io("http://localhost:3000");//"https://carrera-info802.herokuapp.com/"
     socket.on("vehicule", (data) => {
-      $('#combo_box').text("")
-      for (el in data){
-            $('#combo_box').append("<option>"+ data[el].name +"</option>");
+      if(data.length > 0){
+        $('#combo_box').text("")
+        for (el in data){
+              $('#combo_box').append("<option>"+ data[el].name +"</option>");
+        }
+        $('.autonomie').text(data[0].autonomy + "km")
+        $('.charging_time').text(data[0].charge_time)
+        vehicule = data
       }
-      $('.autonomie').text(data[0].autonomy + "km")
-      $('.charging_time').text(data[0].charge_time)
-      vehicule = data
     })
 
     socket.on("borne", (data) => {
