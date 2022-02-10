@@ -5,27 +5,24 @@
     
 }
 body{
-   
     background: url("../assets/wallpaper.jpg");
     image-orientation: -90deg;
     background-size: cover;
     background-repeat :no-repeat;
+    background-attachment: fixed;
     height: 100vh;
     width: 100vw;
     backdrop-filter: blur(25px);
-    
-    
 }
 .vehicule_list{
     color: white;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.35);
-    margin-left: 65%;
+    margin-left: 2%;
     width: 30%;
     border-radius: 25px;
     margin-top: 5vh ; 
 }
-
 
 .autonomie{
     margin-left: 5px;
@@ -117,10 +114,11 @@ body{
     background : linear-gradient(145deg,  rgba(235,0,255,1) 0%,rgba(0,255,235,0.6197829473586309) 100%);
 }
 .map {
-    position:absolute;
-    height: 85%;
+    float:right;
+    height: 85vh;
     width: 60%;
-    margin-left:2%;
+    margin-right:3%;
+    border-radius: 25px;
   }
   #directions {
     position: absolute;
@@ -147,6 +145,25 @@ body{
     padding:5px;
     border:none;
 }
+
+@media only screen and (max-device-width: 992px) {
+body{
+    height :190vh;
+}
+.map{
+    float: initial;
+    width: 80%;
+    margin-left:10%;
+}
+.vehicule_list{
+    width: 80%;
+    margin-left:10%;
+    padding-left:4px;
+    padding-right: 4px;
+}
+}
+
+
 .select {
     margin-left: auto;
     margin-right: auto;
