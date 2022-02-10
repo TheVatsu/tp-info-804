@@ -163,6 +163,12 @@ body{
 }
 }
 
+@media only screen and (max-device-width: 626px) {
+.nom,.prenom,.titre{
+    font-size: 20px;
+}
+}
+
 
 .select {
     margin-left: auto;
