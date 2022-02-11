@@ -1,10 +1,11 @@
+'use strict'
+
 var soap = require('soap');
 const express = require('express');
 const socketIO = require('socket.io');
 const request = require('request');
 
 const PORT = process.env.PORT || 3000;
-const INDEX = '/index.html';
 
 const server = express().use(express.static("public"))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
@@ -12,9 +13,10 @@ const server = express().use(express.static("public"))
 
 const io = socketIO(server);
 
+const config = require("./config.json")
 const URL_SOAP = 'https://vehicule-soap.herokuapp.com/?wsdl';
 const URL_REST = 'https://rest-vehicule.herokuapp.com/';
-const URL_BORNE = 'https://opendata.reseaux-energies.fr/api/records/1.0/search/';
+const URL_BORNE = 'https://opendata.reseaux-energies.fr/api/records/1.0/search/?'+config.BORNE_KEY;
 var args = {};
 var vehicule = []
 soap.createClient(URL_SOAP, function(err, client) {
@@ -39,20 +41,16 @@ io.on('connection',(socket)=>{
     });
   });
 
-  socket.on('get_borne',(start,end,dist)=>{
-    start = start +'';
-    end = end + '';
-    var long = start.split(",")[0];
-    var lat = start.split(",")[1];
-    request(URL_BORNE + '?dataset=bornes-irve&q=&rows=100&geofilter.distance='+long+'%2C+'+lat+'%2C+'+dist, function (error, response, body) {
-      io.to(socket.id).emit("borne",filterBorne(body));
-    });
-    
-    long = end.split(",")[0];
-    lat = end.split(",")[1];
-    request(URL_BORNE + '?dataset=bornes-irve&q=&rows=100&geofilter.distance='+long+'%2C+'+lat+'%2C+'+dist, function (error, response, body) {
-      io.to(socket.id).emit("borne",filterBorne(body));
-    });
+  socket.on('get_borne',(list,dist)=>{
+    for(var i = 0; i < list.length ; i++){
+      var p = list[i]+''
+      var long = p.split(",")[0]
+      var lat = p.split(",")[1]
+      
+      request(URL_BORNE + '&dataset=bornes-irve&q=&rows=10&geofilter.distance='+lat+'%2C+'+long+'%2C+'+dist, function (error, response, body) {
+        io.to(socket.id).emit("borne",filterBorne(body));
+      });
+    }
   });
 
 });
@@ -61,8 +59,7 @@ io.on('connection',(socket)=>{
 function filterBorne(data){
   var array = [];
   var d = JSON.parse(data);
-  console.log(d.nhits);
-  for(el in d.records){
+  for(var el in d.records){
     if(array.filter(e => e === d.records[el].fields.geo_point_borne).length === 0){
       array.push(d.records[el].fields.geo_point_borne);
     }

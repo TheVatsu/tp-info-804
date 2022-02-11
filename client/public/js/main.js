@@ -3,7 +3,7 @@ var vehicule = []
 const apiKey = "AAPK020c96eefdfd42c28bb455760d3f2efazFdj0zWahCb9LTepXcAxN3SZC0GRV9Eyyt4iKdWU1iv01vLertpO3njj0qMNjKgu";
 
 $( document ).ready(function() {
-    const socket = io("http://localhost:3000");//"https://carrera-info802.herokuapp.com/"
+    const socket = io("https://carrera-info802.herokuapp.com/");//"http://localhost:3000"
     socket.on("vehicule", (data) => {
       if(data.length > 0){
         $('#combo_box').text("")
@@ -139,7 +139,6 @@ map.on("click", (e) => {
     endCoords = coordinates;
     currentStep = "start";
     
-    socket.emit("get_borne",startCoords, endCoords,400000);
     updateRoute(startCoords, endCoords);
 
   }
@@ -168,7 +167,14 @@ function updateRoute() {
     })
 
     .then((response) => {
-
+      var coord = response.routes.geoJson.features[0].geometry.coordinates
+      var listPoints= [startCoords,endCoords]
+      for(var i = 0 ; i < coord.length ; i+= 30){
+        listPoints.push(coord[i])
+      }
+      
+      socket.emit("get_borne",listPoints,10000);
+      $('#nb_km').val(parseInt(response.routes.geoJson.features[0].properties.Total_Kilometers))
       routeLayer.setSource(
         new ol.source.Vector({
           features: geojson.readFeatures(response.routes.geoJson)
@@ -203,7 +209,7 @@ function addPoint(point){
       source: new ol.source.Vector({
           features: [
               new ol.Feature({
-                  geometry: new ol.geom.Point(ol.proj.fromLonLat([point[0], point[1]]))
+                  geometry: new ol.geom.Point(ol.proj.fromLonLat([point[1], point[0]]))
               })
           ]
       })
