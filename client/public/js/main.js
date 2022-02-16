@@ -4,6 +4,11 @@ const apiKey = "AAPK020c96eefdfd42c28bb455760d3f2efazFdj0zWahCb9LTepXcAxN3SZC0GR
 
 $( document ).ready(function() {
     const socket = io("https://carrera-info802.herokuapp.com/");//"http://localhost:3000"
+    let startCoords, endCoords;
+    var nb_km = null;
+    var nb_point = 0
+    var current_point = 0;
+    var array_borne = []
     socket.on("vehicule", (data) => {
       if(data.length > 0){
         $('#combo_box').text("")
@@ -15,10 +20,20 @@ $( document ).ready(function() {
         vehicule = data
       }
     })
-
     socket.on("borne", (data) => {
+      current_point++;
+      var pourcent = Math.trunc(current_point/nb_point * 100)
+      if(pourcent != 100){
+        $(".loading").text("Bornes : " + pourcent + "%")
+      }else{
+        $(".loading").text("Les bornes rouges indiquent où vous devez vous rechargez")
+      }
       for(let i in data){
-        addPoint(data[i]);
+        addPoint(data[i],false);
+        array_borne.push(data[i])
+      }
+      if(current_point === nb_point){
+        show_red_borne()
       }
     })
 
@@ -92,7 +107,6 @@ function addCircleLayers() {
 }
 
 let currentStep = "start";
-let startCoords, endCoords;
 
 const geojson = new ol.format.GeoJSON({
   defaultDataProjection: "EPSG:4326",
@@ -124,7 +138,7 @@ map.on("click", (e) => {
       routeLayer.getSource().clear();
 
       document.getElementById("directions").innerHTML = "";
-      document.getElementById("directions").style.display = "none";
+      document.getElementById("directions").style.display = "block";
 
     }
 
@@ -172,9 +186,12 @@ function updateRoute() {
       for(var i = 0 ; i < coord.length ; i+= 30){
         listPoints.push(coord[i])
       }
+      nb_point = listPoints.length
+      current_point = 0
       
-      socket.emit("get_borne",listPoints,10000);
-      $('#nb_km').val(parseInt(response.routes.geoJson.features[0].properties.Total_Kilometers))
+      socket.emit("get_borne",listPoints,5000);
+      nb_km = parseInt(response.routes.geoJson.features[0].properties.Total_Kilometers)
+      $('#nb_km').val(nb_km)
       routeLayer.setSource(
         new ol.source.Vector({
           features: geojson.readFeatures(response.routes.geoJson)
@@ -183,7 +200,7 @@ function updateRoute() {
 
       const directionsHTML = response.directions[0].features.map((f) => f.attributes.text).join("<br/>");
       document.getElementById("directions").innerHTML = directionsHTML;
-      document.getElementById("directions").style.display = "none";
+      document.getElementById("directions").style.display = "block";
 
     })
 
@@ -204,17 +221,80 @@ olms(map, basemapURL)
 
   });
 
-function addPoint(point){
+function addPoint(point , isRed){
+  if(!isRed){
     var layer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-          features: [
-              new ol.Feature({
-                  geometry: new ol.geom.Point(ol.proj.fromLonLat([point[1], point[0]]))
-              })
-          ]
-      })
-  });
-  map.addLayer(layer);
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([point[1], point[0]]))
+                })
+            ]
+        })
+    });
+    map.addLayer(layer);
+  }else{
+    var layer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([point[1], point[0]]))
+                })
+            ]
+        }),style: new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({color: 'red'}),
+            stroke: new ol.style.Stroke({
+              color: [0,0,0], width: 2
+            })
+          })
+        })
+    });
+    map.addLayer(layer);
+  }
 }
 
+//calcule la distance entre deux point gps
+function distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
+
+function show_red_borne(){
+  var red_list = [0]
+  var current = 0
+  var e = vehicule.filter(el => el.name === $('#combo_box').val())[0];
+  var previous = [startCoords[1],startCoords[0]]
+  if(e.autonomy < nb_km){
+    for(let i in array_borne){
+      if(distance(previous[0],previous[1],array_borne[i][0],array_borne[i][1],'K') < e.autonomy * 0.9){
+        red_list[current] = i
+      }else{
+        previous = array_borne[red_list[current]];
+        current++
+      }
+    }
+    for(var i in red_list){
+      addPoint(array_borne[red_list[i]],true)
+    }
+  }
+}
 });

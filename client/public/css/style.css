@@ -17,11 +17,13 @@ body{
 .vehicule_list{
     color: white;
     padding: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-color: rgba(0, 0, 0, 0.35);
     margin-left: 2%;
     width: 30%;
     border-radius: 25px;
-    margin-top: 5vh ; 
+    margin-top: 1vh; 
 }
 
 .autonomie{
@@ -43,7 +45,7 @@ body{
 .choisissez {   
     font-size: 30px;
     text-align: center;
-    margin: 20px;
+    margin: 5px;
 }
 
    
@@ -125,18 +127,16 @@ body{
     border-radius: 25px;
   }
   #directions {
-    position: absolute;
-    width: 30%;
-    max-height: 50%;
-    right: 20px;
-    top: 20px;
     overflow-y: auto;
-    background: white;
+    text-align: center;
+    height: 250px;
     font-family: Arial, Helvetica, Verdana;
     line-height: 1.5;
     font-size: 14px;
     padding: 10px;
-    display:none;
+  }
+  .loading{
+      text-align: center;
   }
 #bouton_temps:hover{
     padding: 12px;

@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "axios": "^0.26.0",
     "express": "^4.17.2",
-    "request": "^2.88.2",
     "soap": "^0.43.0",
     "socket.io": "^4.4.1"
   },
