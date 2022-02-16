@@ -31,13 +31,13 @@ io.on('connection',(socket)=>{
 
   socket.on('highway',(km,autonomy,loading_time)=>{
     axios.get(URL_REST + 'highway?km='+km+'&autonomy='+autonomy+'&loading_time='+loading_time).then( function (response) {
-       io.to(socket.id).emit("res_temps",response);
+       io.to(socket.id).emit("res_temps",response.data);
     });
   });
 
   socket.on('national',(km,autonomy,loading_time)=>{
     axios.get(URL_REST + 'national?km='+km+'&autonomy='+autonomy+'&loading_time='+loading_time).then( function (response) {
-       io.to(socket.id).emit("res_temps",response);
+       io.to(socket.id).emit("res_temps",response.data);
     });
   });
 

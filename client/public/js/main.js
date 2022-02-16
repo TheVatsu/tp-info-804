@@ -122,7 +122,6 @@ map.on("click", (e) => {
   };
 
   if (currentStep === "start") {
-
     startLayer.setSource(
       new ol.source.Vector({
         features: geojson.readFeatures(point)
@@ -188,8 +187,9 @@ function updateRoute() {
       }
       nb_point = listPoints.length
       current_point = 0
+      array_borne = []
       
-      socket.emit("get_borne",listPoints,5000);
+      socket.emit("get_borne",listPoints,3000);
       nb_km = parseInt(response.routes.geoJson.features[0].properties.Total_Kilometers)
       $('#nb_km').val(nb_km)
       routeLayer.setSource(
@@ -279,21 +279,32 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 }
 
 function show_red_borne(){
-  var red_list = [0]
+  var red_list = [-1]
   var current = 0
   var e = vehicule.filter(el => el.name === $('#combo_box').val())[0];
   var previous = [startCoords[1],startCoords[0]]
   if(e.autonomy < nb_km){
-    for(let i in array_borne){
-      if(distance(previous[0],previous[1],array_borne[i][0],array_borne[i][1],'K') < e.autonomy * 0.9){
-        red_list[current] = i
+    array_borne.sort(function compare(a, b) {
+      if (a[0] < b[0] ){
+        return -1;
       }else{
-        previous = array_borne[red_list[current]];
-        current++
+        return 1;
+      }
+    })
+    for(let i in array_borne){
+      var dist = distance(previous[0],previous[1],array_borne[i][0],array_borne[i][1],'K')
+      if( dist < e.autonomy * 0.8){
+        red_list[current] = i
+      }else if(red_list[current] != -1){
+          previous = array_borne[red_list[current]];
+          red_list.push(-1)
+          current++
       }
     }
     for(var i in red_list){
-      addPoint(array_borne[red_list[i]],true)
+      if(red_list[i] != -1 && i != red_list.length -1){
+        addPoint(array_borne[red_list[i]],true)
+      }
     }
   }
 }
