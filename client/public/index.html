@@ -19,48 +19,50 @@
 </div>
 <body>
     <div id="map" class="map"></div>
-    <div class="vehicule_list">
-        <div class="choisissez">Choissisez un véhicule</div>
-        <div class="select">
-            <select id="combo_box">
-                <option>Chargement...</option>
-            </select> 
-            <div class="select_arrow"></div>
-        </div>
-        <div class="car_info">
-            <div class='papa'>
-                <div class="titre_info">Information sur le vehicule : </div>
-                <div class="info">Autonomie : </div>
-                <div class="autonomie"></div>
+    <div class="menu">
+        <div class="vehicule_list_1">
+            <div class="choisissez">Choissisez un véhicule</div>
+            <div class="select">
+                <select id="combo_box">
+                    <option>Chargement...</option>
+                </select> 
+                <div class="select_arrow"></div>
             </div>
+            <div class="car_info">
+                <div class='papa'>
+                    <div class="titre_info">Information sur le vehicule : </div>
+                    <div class="info">Autonomie : </div>
+                    <div class="autonomie"></div>
+                </div>
 
-            <div class='papa'>
-                <div class="info">Temps de charge : </div>
-                <div class="charging_time"></div>
-            </div>
+                <div class='papa'>
+                    <div class="info">Temps de charge : </div>
+                    <div class="charging_time"></div>
+                </div>
 
-        </div>
-    </div>
-
-    <div class="vehicule_list">
-        <div class="choisissez">Temps de parcours </div>
-        <div class="select">
-            <select id="combo_box_road">
-                <option>Autoroute</option>
-                <option>Nationale</option>
-            </select> 
-            <div class="select_arrow"></div>
-            <div class='papa'>
-                <div class="div_input">Nombre de km : <input type="text" id="nb_km"></div>
-                <button id="bouton_temps">Calculer</button>
-                <div class="div_temps_total" >Temps de parcours : <div class="temps_total">0H</div></div>
             </div>
         </div>
-    </div>
-    <div class="vehicule_list">
-        <div class="choisissez">Information </div>
-        <div class="loading">Cliquez sur la map un endroit de départ et d'arrivée</div>
-        <div id="directions"></div>
+
+        <div class="vehicule_list_2">
+            <div class="choisissez">Temps de parcours </div>
+            <div class="select">
+                <select id="combo_box_road">
+                    <option>Autoroute</option>
+                    <option>Nationale</option>
+                </select> 
+                <div class="select_arrow"></div>
+                <div class='papa'>
+                    <div class="div_input">Nombre de km : <input type="text" id="nb_km"></div>
+                    <button id="bouton_temps">Calculer</button>
+                    <div class="div_temps_total" >Temps de parcours : <div class="temps_total">0H</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="vehicule_list_3">
+            <div class="choisissez">Information </div>
+            <div class="loading">Cliquez sur la map un endroit de départ et d'arrivée</div>
+            <div id="directions"></div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.7.0/build/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ol-mapbox-style@6.1.4/dist/olms.js" type="text/javascript"></script>

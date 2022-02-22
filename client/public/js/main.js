@@ -9,6 +9,8 @@ $( document ).ready(function() {
     var nb_point = 0
     var current_point = 0;
     var array_borne = []
+    var road_coordinates = []
+    var range_borne = 3000
     socket.on("vehicule", (data) => {
       if(data.length > 0){
         $('#combo_box').text("")
@@ -79,7 +81,7 @@ const view = new ol.View({
 });
 map.setView(view);
 
-let startLayer, endLayer, routeLayer;
+let startLayer, endLayer, routeLayer,layer_list;
 function addCircleLayers() {
 
   startLayer = new ol.layer.Vector({
@@ -132,9 +134,12 @@ map.on("click", (e) => {
     // clear endCoords and route if they were already set
     if (endCoords) {
       endCoords = null;
-      endLayer.getSource().clear();
 
+      endLayer.getSource().clear();
       routeLayer.getSource().clear();
+      for(var i in layer_list){
+        layer_list[i].getSource().clear()
+      }
 
       document.getElementById("directions").innerHTML = "";
       document.getElementById("directions").style.display = "block";
@@ -164,6 +169,7 @@ function addRouteLayer() {
       stroke: new ol.style.Stroke({ color: "hsl(205, 100%, 50%)", width: 4, opacity: 0.6 })
     })
   });
+  layer_list = []
 
   map.addLayer(routeLayer);
 }
@@ -188,8 +194,9 @@ function updateRoute() {
       nb_point = listPoints.length
       current_point = 0
       array_borne = []
-      
-      socket.emit("get_borne",listPoints,3000);
+      road_coordinates = response.routes.geoJson.features[0].geometry.coordinates
+
+      socket.emit("get_borne",listPoints,range_borne);
       nb_km = parseInt(response.routes.geoJson.features[0].properties.Total_Kilometers)
       $('#nb_km').val(nb_km)
       routeLayer.setSource(
@@ -232,6 +239,7 @@ function addPoint(point , isRed){
             ]
         })
     });
+    layer_list.push(layer)
     map.addLayer(layer);
   }else{
     var layer = new ol.layer.Vector({
@@ -251,6 +259,7 @@ function addPoint(point , isRed){
           })
         })
     });
+    layer_list.push(layer)
     map.addLayer(layer);
   }
 }
@@ -278,34 +287,37 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 	}
 }
 
+function road_distance(borne){
+  var dist = 0
+  var i = 0
+  while (dist === 0 || distance(road_coordinates[i][1],road_coordinates[i][0],borne[0],borne[1],'K') > range_borne / 1000){
+      dist += distance(road_coordinates[i][1],road_coordinates[i][0],road_coordinates[i+1][1],road_coordinates[i+1][0],'K')
+      i++
+      if(i === road_coordinates.length -1){break}
+  }
+  return dist
+}
+
+
 function show_red_borne(){
-  var red_list = [-1]
-  var current = 0
   var e = vehicule.filter(el => el.name === $('#combo_box').val())[0];
-  var previous = [startCoords[1],startCoords[0]]
   if(e.autonomy < nb_km){
-    array_borne.sort(function compare(a, b) {
-      if (a[0] < b[0] ){
-        return -1;
-      }else{
-        return 1;
+    var default_autonomy = e.autonomy * 0.8
+    var autonomy = default_autonomy
+    while(autonomy < nb_km){
+      var closest = 0
+      var best_dist = road_distance(array_borne[0])
+      for(let i in array_borne){
+        var dist = road_distance(array_borne[i])
+        if( dist < autonomy && dist - autonomy > best_dist - autonomy ){
+          best_dist = dist;
+          closest = i
+        }
       }
-    })
-    for(let i in array_borne){
-      var dist = distance(previous[0],previous[1],array_borne[i][0],array_borne[i][1],'K')
-      if( dist < e.autonomy * 0.8){
-        red_list[current] = i
-      }else if(red_list[current] != -1){
-          previous = array_borne[red_list[current]];
-          red_list.push(-1)
-          current++
-      }
-    }
-    for(var i in red_list){
-      if(red_list[i] != -1 && i != red_list.length -1){
-        addPoint(array_borne[red_list[i]],true)
-      }
-    }
+      addPoint(array_borne[closest],true)
+      autonomy += default_autonomy
+   }
+   
   }
 }
 });

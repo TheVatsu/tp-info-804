@@ -14,7 +14,7 @@ body{
     width: 100vw;
     backdrop-filter: blur(25px);
 }
-.vehicule_list{
+.vehicule_list_1{
     color: white;
     padding: 20px;
     padding-top: 5px;
@@ -24,6 +24,30 @@ body{
     width: 30%;
     border-radius: 25px;
     margin-top: 1vh; 
+}
+.vehicule_list_2{
+    color: white;
+    padding: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.35);
+    margin-left: 2%;
+    width: 30%;
+    border-radius: 25px;
+    margin-top: 1vh; 
+}
+.vehicule_list_3{
+    color: white;
+    padding: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.35);
+    margin-left: 2%;
+    width: 30%;
+    border-radius: 25px;
+    margin-top: 1vh; 
+    max-height: 26vh;
+    overflow-y: auto;
 }
 
 .autonomie{
@@ -45,14 +69,11 @@ body{
 .choisissez {   
     font-size: 30px;
     text-align: center;
-    margin: 5px;
 }
 
    
 .info{
     display: inline-block;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .autonomie{
@@ -111,7 +132,7 @@ body{
 }
 
 #bouton_temps{
-    margin: 15px;
+    margin: 5px;
     padding: 10px;
     border-radius:20px;
     font-size:20px;
@@ -126,10 +147,12 @@ body{
     margin-right:3%;
     border-radius: 25px;
   }
+  .menu{
+      max-height: 85vh !important; 
+  }
   #directions {
     overflow-y: auto;
     text-align: center;
-    height: 250px;
     font-family: Arial, Helvetica, Verdana;
     line-height: 1.5;
     font-size: 14px;
@@ -140,7 +163,7 @@ body{
   }
 #bouton_temps:hover{
     padding: 12px;
-    margin: 13px;
+    margin: 3px;
 
 }
 
@@ -153,18 +176,19 @@ body{
 
 @media only screen and (max-device-width: 992px) {
 body{
-    height :190vh;
+    height :200vh;
 }
 .map{
     float: initial;
     width: 80%;
     margin-left:10%;
 }
-.vehicule_list{
+.vehicule_list_1,.vehicule_list_2,.vehicule_list_3 {
     width: 80%;
     margin-left:10%;
     padding-left:4px;
     padding-right: 4px;
+    margin-top: 3vh;
 }
 }
 
@@ -180,7 +204,6 @@ body{
     margin-right: auto;
     position: relative;
     display: block;
-    margin-bottom: 15px;
     width: 50%;
     
 }   
