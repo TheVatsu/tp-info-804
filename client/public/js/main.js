@@ -3,7 +3,7 @@ var vehicule = []
 const apiKey = "AAPK020c96eefdfd42c28bb455760d3f2efazFdj0zWahCb9LTepXcAxN3SZC0GRV9Eyyt4iKdWU1iv01vLertpO3njj0qMNjKgu";
 
 $( document ).ready(function() {
-    const socket = io("https://carrera-info802.herokuapp.com/");//"http://localhost:3000"
+    const socket = io("https://carrera-info802.herokuapp.com/");//"http://localhost:3000" 
     let startCoords, endCoords;
     var nb_km = null;
     var nb_point = 0

@@ -1,8 +1,9 @@
-from spyne import Application, rpc, ServiceBase , AnyDict
+from spyne import Application, rpc, ServiceBase , AnyDict 
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
+import os 
+port = int(os.environ.get('PORT', 33507))
 
-port = 3001
 vehicule = {"data" : [
     {"name":"Tesla Model S","autonomy":560,"charge_time":"7H"},
     {"name":"Kia e-niro","autonomy":370,"charge_time":"10H30"},
@@ -21,6 +22,6 @@ wsgi_application = WsgiApplication(application)
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
-    server = make_server('127.0.0.1', port, wsgi_application)
+    server = make_server('0.0.0.0', port, wsgi_application)
     print("server is running on port : " + str(port))
     server.serve_forever()
